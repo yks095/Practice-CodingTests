@@ -1,4 +1,4 @@
-package com.kiseok.backjoon;
+package backjoon;
 
 import java.util.Scanner;
 

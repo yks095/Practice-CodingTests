@@ -1,4 +1,4 @@
-package com.kiseok.programmers.hash;
+package programmers.hash;
 
 import java.util.Arrays;
 

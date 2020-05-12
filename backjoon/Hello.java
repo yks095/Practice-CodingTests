@@ -1,4 +1,4 @@
-package com.kiseok.backjoon;
+package backjoon;
 
 public class Hello {
     public static void main(String[] args)  {

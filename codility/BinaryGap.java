@@ -1,4 +1,4 @@
-package com.kiseok.codility;
+package codility;
 import java.util.*;
 
 public class BinaryGap {
