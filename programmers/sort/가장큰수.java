@@ -1,6 +1,7 @@
 package programmers.sort;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class 가장큰수 {
     public static void main(String[] args)  {
@@ -9,14 +10,19 @@ public class 가장큰수 {
     }
 
     private static String solution(int[] numbers) {
-        String result = "";
-        String[] results = new String[numbers.length];
-
-        for(int i = 0; i < numbers.length; i++) {
-            results[i] = String.valueOf(numbers[i]);
-        }
-        Arrays.sort(results);
-
-        return Arrays.toString(results);
+        String answer = "";
+//        String[] grade = new String[numbers.length];
+//
+//        for(int i = 0; i < numbers.length; i++) {
+//            grade[i] = String.valueOf(numbers[i]);
+//        }
+//
+//        Arrays.sort(grade, new Comparator<String>() {
+//            @Override
+//            public int compare(String o1, String o2) {
+//                return 0;
+//            }
+//        });
+        return answer;
     }
 }
