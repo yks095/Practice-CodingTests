@@ -61,4 +61,4 @@ public class Q18868 {
     }
 }
 
-// reference : https://www.acmicpc.net/problem/18868 멀티버스
+// reference : 멀티버스 (https://www.acmicpc.net/problem/18868)

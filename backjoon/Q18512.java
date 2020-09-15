@@ -35,4 +35,4 @@ public class Q18512 {
     }
 }
 
-// reference : https://www.acmicpc.net/problem/18512 점프 점프
+// reference : 점프 점프 (https://www.acmicpc.net/problem/18512)
