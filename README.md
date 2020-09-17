@@ -11,6 +11,6 @@
 ## 개발환경
 |도구|버전|
 |:---:|:---:|
-|운영체제|Windows 10 Home|
+|운영체제|MAC OS X|
 |개발 툴|IntelliJ IDEA Ultimate|
-|JDK|JDK 8(>=8)|
+|JDK|JDK 8|
