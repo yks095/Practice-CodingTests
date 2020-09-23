@@ -1,10 +1,7 @@
 package backjoon;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.io.*;
+import java.util.*;
 
 public class Q11370 {
 
@@ -23,52 +20,52 @@ public class Q11370 {
     private static final int[] dx = {0, 1, 0, -1};
     private static final int[] dy = {1, 0, -1, 0};
     private static char[][] spiders;
-    private static boolean[][] isVisited;
+    private static Queue<Point> queue;
     private static BufferedReader br;
-    private static String[] size;
+    private static BufferedWriter bw;
 
     public static void main(String[] args) throws IOException {
 
         br = new BufferedReader(new InputStreamReader(System.in));
+        bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         while(H != 0 && W != 0) {
-            size = br.readLine().split("\\s+");
+            String[] size = br.readLine().split("\\s+");
             H = Integer.parseInt(size[0]);
             W = Integer.parseInt(size[1]);
+            queue = new LinkedList<>();
             solution();
         }
+
+        bw.flush();
+        bw.close();
 
     }
 
     private static void solution() throws IOException {
         spiders = new char[W][H];
-        isVisited = new boolean[W][H];
 
         for(int i = 0; i < W; i++)  {
-            spiders[i] = br.readLine().toCharArray();
-        }
-
-        for(int i = 0; i < W; i++)  {
+            String line = br.readLine();
             for(int j = 0; j < H; j++)  {
-                if(!isVisited[i][j] && spiders[i][j] == 'S')    {
-                    isVisited[i][j] = true;
-                    bfs(i, j);
+                spiders[i][j] = line.charAt(j);
+                if(spiders[i][j] == 'S')    {
+                    queue.offer(new Point(i, j));
                 }
             }
         }
 
+        bfs();
+
         for(int i = 0; i < W; i++)  {
             for(int j = 0; j < H; j++)  {
-                System.out.print(spiders[i][j]);
+                bw.write(String.valueOf(spiders[i][j]));
             }
-            System.out.println();
+            bw.newLine();
         }
     }
 
-    private static void bfs(int i, int j) {
-        Queue<Point> queue = new LinkedList<>();
-        queue.offer(new Point(i, j));
-
+    private static void bfs() {
         while(!queue.isEmpty()) {
             Point point = queue.poll();
             int point_x = point.x;
@@ -77,12 +74,14 @@ public class Q11370 {
             for(int k = 0; k < dx.length; k++)  {
                 int x = point_x + dx[k];
                 int y = point_y + dy[k];
-                if((x >= 0) && (x < W) && (y >= 0) && (y < H) && (spiders[x][y] == 'T') && !isVisited[x][y])  {
+                if((x >= 0) && (x < W) && (y >= 0) && (y < H) && (spiders[x][y] == 'T'))  {
                     spiders[x][y] = 'S';
-                    isVisited[x][y] = true;
                     queue.offer(new Point(x, y));
                 }
             }
         }
     }
 }
+
+// reference : Spawn of Ungoliant (https://www.acmicpc.net/problem/11370)
+
