@@ -1,8 +1,6 @@
 //package programmers.level1;
 //
-//import java.util.Arrays;
-//import java.util.LinkedList;
-//import java.util.Queue;
+//import java.util.*;
 //
 ///**
 // * 시저 암호
@@ -10,15 +8,39 @@
 // */
 //public class CaesarCipher {
 //    public static void main(String[] args) {
-//        String s = "AB";
+//        String s = "Z";
 //        int n = 1;
 //        System.out.println(solution(s, n));
 //    }
 //
 //    private static String solution(String s, int n) {
-//        Queue<String> upper = new LinkedList<>(Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"));
-//        Queue<String> lower = new LinkedList<>(Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"));
+//        StringBuilder sb = new StringBuilder();
 //
+//        for(int i = 0; i < s.length(); i++) {
+//            char c = s.charAt(i);
+//            String str = "";
+//            if(c == ' ')    {
+//                str = " ";
+//            } else if((int)c >= 65 && (int)c <= 90) {
+//                int num = (int)c + n;
+//                int num2 = num % 65;
+//
+//                System.out.println("num = " + num + ", num2 = " + num2);
+//
+//                str = String.valueOf((char) (num - num2));
+//            } else if((int)c >= 97 && (int)c <= 122)    {
+//                int num = (int)c + n;
+//                int num2 = num % 97;
+//
+//                System.out.println("num = " + num + ", num2 = " + num2);
+//
+//                str = String.valueOf((char) (num - num2));
+//            }
+//
+//            sb.append(str);
+//        }
+//
+//        return sb.toString();
 //
 //
 //    }
