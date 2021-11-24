@@ -6,8 +6,8 @@ package programmers.level1;
  */
 public class CommonNumber {
     public static void main(String[] args) {
-        int n = 2;
-        int m = 5;
+        int n = 16;
+        int m = 36;
 
         int[] solution = solution(n, m);
         for (int i : solution) {
