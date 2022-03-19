@@ -1,78 +1,116 @@
 package backjoon;
 
-import java.io.*;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
 import java.util.Queue;
 
-public class Q2178 {
+/**
+ * 미로 탐색
+ * https://www.acmicpc.net/problem/2178
+ */
+public class Q2178  {
 
-    static class Point {
+    static int minCount = 0;
+    static int N;
+    static int M;
+    static int[][] map;
+    static boolean[][] isVisited;
+    // 우, 상, 좌, 하
+    static int[] dx = { -1, 0, 1, 0 };
+    static int[] dy = { 0, -1, 0, 1 };
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+    public static void main(String[] args) throws IOException {
+        String firstLine = br.readLine();
+        N = Integer.parseInt(firstLine.split("\\s+")[0]);
+        M = Integer.parseInt(firstLine.split("\\s+")[1]);
+
+        map = new int[N][M];
+        isVisited = new boolean[N][M];
+
+        for(int i = 0; i < N; i++)  {
+            String input = br.readLine();
+            for(int j = 0; j < M; j++)   {
+                map[i][j] = input.charAt(j) - '0';
+            }
+        }
+
+        isVisited[0][0] = true;
+        bfs(0, 0);
+
+        System.out.println(map[N - 1][M - 1]);
+
+    }
+
+    private static void bfs(int i, int j) {
+        Queue<Area> queue = new LinkedList<>();
+        queue.add(new Area(i, j));
+
+        while(!queue.isEmpty()) {
+            Area area = queue.poll();
+            int prevX = area.x;
+            int prevY = area.y;
+
+            for(int k = 0; k < 4; k++)  {
+                int x = prevX + dx[k];
+                int y = prevY + dy[k];
+
+                if(x >= 0 && y >= 0 && x < N && y < M)  {
+                    if(map[x][y] == 1 && !isVisited[x][y])  {
+                        isVisited[x][y] = true;
+                        minCount++;
+                        queue.add(new Area(x, y));
+                        map[x][y] = map[prevX][prevY] + 1;
+                    }
+                }
+            }
+        }
+
+    }
+
+    static class Area   {
         int x;
         int y;
 
-        public Point(int x, int y)  {
+        public Area(int x, int y) {
             this.x = x;
             this.y = y;
         }
     }
 
-    private static final int[] dx = {0, 1, 0, -1, -1, 1, 1, -1};
-    private static final int[] dy = {1, 0, -1, 1, 1, 1, -1, -1};
-    private static char[][] maze;
-    private static boolean[][] isVisited;
-    private static Queue<Point> queue;
-    private static BufferedReader br;
-    private static BufferedWriter bw;
-    private static int N;
-    private static int M;
-    private static String[] size;
-    private static int count;
-
-    public static void main(String[] args) throws IOException {
-        br = new BufferedReader(new InputStreamReader(System.in));
-        bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        size = br.readLine().split("\\s+");
-        N = Integer.parseInt(size[0]);
-        M = Integer.parseInt(size[1]);
-        maze = new char[N][M];
-        count = 0;
-
-        while(count != N) {
-            maze[count] = br.readLine().toCharArray();
-            count++;
-        }
-        count = 0;
-
-        for(int i = 0; i < N; i++)  {
-            for(int j = 0; j < M; j++)  {
-                if(maze[i][j] == 1 && !isVisited[i][j]) {
-                    isVisited[i][j] = true;
-                    count++;
-                    bfs(i, j, count);
-                }
-            }
-        }
-
-        System.out.println(count);
-
-
-    }
-
-    private static void bfs(int i, int j, int count) {
-        queue.offer(new Point(i, j));
-        while(!queue.isEmpty()) {
-            Point point = queue.poll();
-            int point_x = point.x;
-            int point_y = point.y;
-
-            for(int k = 0; k < dx.length; k++)  {
-                int x = point_x + dx[k];
-                int y = point_y + dy[k];
-                if((x >= 0) && (x < N) && (y >= 0) && (y < M) && (maze[x][y] == '1'))  {
-                    count++;
-                    queue.offer(new Point(x, y));
-                }
-            }
-        }
-    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
