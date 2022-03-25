@@ -11,7 +11,17 @@
 // */
 //public class Q1149 {
 //
-//    public static void main(String[] args) {
+//    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//    static StringTokenizer st;
+//    static int[][]
+//    static int N;
+//    static int result;
 //
+//    public static void main(String[] args) throws IOException {
+//        N = Integer.parseInt(br.readLine());
+//
+//        for(int i = 0; i < N; i++)  {
+//
+//        }
 //    }
 //}
