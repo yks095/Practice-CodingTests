@@ -19,33 +19,44 @@ public class Q15970 {
     public static void main(String[] args) throws IOException {
         input();
 
-        for(int i = 1; i < points.length; i++) {
+        for(int i = 1; i <= N; i++) {
             Collections.sort(points[i]);
         }
 
-        for(int i = 1; i < points.length; i++)  {
-            List<Integer> list = points[i];
-            int dist = list.get(1) - list.get(0);
-            for(int j = 1; j < list.size(); j++)    {
+        for(int i = 1; i <= N; i++)  {
+            for(int j = 0; j < points[i].size(); j++)    {
+                int leftDist = getLeftDistance(i, j);
+                int rightDist = getRightDistance(i, j);
 
+                result += Math.min(leftDist, rightDist);
             }
+
         }
 
-//        for(int i = 1; i < 3; i++) {
-//            System.out.println("color : " + i);
-//            List<Integer> list = points[i];
-//            for (Integer integer : list) {
-//                System.out.print(integer + " ");
-//            }
-//            System.out.println();
-//        }
+        System.out.println(result);
+    }
+
+    private static int getRightDistance(int i, int j) {
+        if(j == points[i].size() - 1)  {
+            return Integer.MAX_VALUE;
+        } else  {
+            return points[i].get(j + 1) - points[i].get(j);
+        }
+    }
+
+    private static int getLeftDistance(int i, int j) {
+        if(j == 0)  {
+            return Integer.MAX_VALUE;
+        } else  {
+            return points[i].get(j) - points[i].get(j - 1);
+        }
     }
 
     private static void input() throws IOException {
         N = Integer.parseInt(br.readLine());
-        points = new ArrayList[3];
+        points = new ArrayList[N + 1];
 
-        for(int i = 1; i < points.length; i++) {
+        for(int i = 1; i <= N; i++) {
             points[i] = new ArrayList<>();
         }
 
