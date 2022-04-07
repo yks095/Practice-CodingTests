@@ -1,9 +1,6 @@
 package programmers.kakao;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 순위 검색
@@ -37,156 +34,87 @@ public class RankingSearch {
         }
     }
 
+    static Map<String, ArrayList<Integer>> map;
+    static String[] splitInfo;
+    static int score;
+    static String[] temp;
+
     private static int[] solution(String[] info, String[] query) {
-        List<ApplierInfo> appliers = initInfo(info);
-        ArrayList<String>[] queries = initQuery(query);
+        initData(info);
 
-//        printArrayList(applier);
-//        printArrayList(queries);
+        sortScores();
 
-        return queryApplier(appliers, queries);
+        return queryApplier(query);
     }
 
-    private static void printArrayList(ArrayList<String>[] array) {
-        for (ArrayList<String> list : array) {
-            System.out.println();
-            for (String s : list) {
-                System.out.println(s + " ");
+    private static int[] queryApplier(String[] query) {
+        int[] result = new int[query.length];
+
+        for (int i = 0; i < query.length; i++) {
+            StringBuilder sb = new StringBuilder();
+            String[] split = query[i].split(" and | ");
+
+            for(int j = 0; j < split.length - 1; j++)   {
+                sb.append(split[j]);
             }
-        }
-    }
 
-    private static List<ApplierInfo> initInfo(String[] info) {
-        List<ApplierInfo> appliers = new ArrayList<>();
-
-        for(int i = 0; i < info.length; i++)    {
-            appliers.add(new ApplierInfo(info[i].split("\\s+")));
-        }
-
-        Collections.sort(appliers);
-
-        return appliers;
-    }
-
-    private static ArrayList<String>[] initQuery(String[] query) {
-        ArrayList<String>[] queries = new ArrayList[query.length];
-
-        for(int i = 0; i < queries.length; i++) {
-            queries[i] = new ArrayList<>(Arrays.asList(query[i].trim().split("\\sand\\s+|\\s+")));
-        }
-
-        return queries;
-    }
-
-    private static int[] queryApplier(List<ApplierInfo> appliers, ArrayList<String>[] queries) {
-        int[] result = new int[queries.length];
-        
-        for(int i = 0; i < queries.length; i++) {
-            ArrayList<String> query = queries[i];
-            int basisScore = Integer.parseInt(query.get(4));
-
-            System.out.println("score : " + basisScore);
-
-            result[i] = countAdjustApplier(basisScore, appliers, query);
+            if(map.containsKey(sb.toString())) {
+                result[i] = findOverScoreApplier(map.get(sb.toString()), Integer.parseInt(split[4]));
+            }
         }
 
         return result;
     }
 
-    private static int countAdjustApplier(int basisScore, List<ApplierInfo> appliers, ArrayList<String> query) {
-        int left = 0, mid = 0, right = appliers.size();
-        int count = 0;
+    private static int findOverScoreApplier(ArrayList<Integer> list, int score) {
+        int left = 0, right = list.size() - 1;
 
         while(left <= right)    {
-            mid = (left + right) / 2;
-            if(appliers.get(mid).score < basisScore)   {
+            int mid = (left + right) / 2;
+            if(list.get(mid) < score)   {
                 left = mid + 1;
             } else  {
                 right = mid - 1;
             }
         }
 
-        List<ApplierInfo> extractedAppliers = appliers.subList(mid, appliers.size() - 1);
-
-        for(int i = mid; i < extractedAppliers.size(); i++)   {
-            ApplierInfo applierInfo = extractedAppliers.get(i);
-            System.out.println(applierInfo);
-            System.out.println(query);
-            if(isAdjustApplier(applierInfo, query)) {
-                count++;
-            }
-        }
-
-        return count;
+        return list.size() - left;
     }
 
-    private static boolean isAdjustApplier(ApplierInfo applierInfo, ArrayList<String> query) {
-        boolean isAdjust = true;
-
-        if(isNotHyphen(query.get(0)) && isNotEmpty(query.get(0)))   {
-            if (!query.get(0).equals(applierInfo.language))    {
-                isAdjust = false;
-            }
+    private static void sortScores() {
+        for (String key : map.keySet()) {
+            Collections.sort(map.get(key));
         }
-
-        if(isNotHyphen(query.get(1)) && isNotEmpty(query.get(1)))   {
-            if(!query.get(1).equals(applierInfo.position)) {
-                isAdjust = false;
-            }
-        }
-
-        if(isNotHyphen(query.get(2)) && isNotEmpty(query.get(2)))   {
-            if(!query.get(2).equals(applierInfo.career)) {
-                isAdjust = false;
-            }
-        }
-
-        if(isNotHyphen(query.get(3)) && isNotEmpty(query.get(3)))   {
-            if(!query.get(3).equals(applierInfo.soulFood)) {
-                isAdjust = false;
-            }
-        }
-
-        return isAdjust;
     }
 
-    private static boolean isNotEmpty(String query) {
-        return !query.isEmpty();
+    private static void initData(String[] info) {
+        map = new HashMap<>();
+
+        for (String i : info) {
+            temp = new String[4];
+            splitInfo = i.split("\\s+");
+            score = Integer.parseInt(splitInfo[4]);
+
+            dfs(0);
+        }
     }
 
-    private static boolean isNotHyphen(String query) {
-        return !"-".equals(query);
-    }
+    private static void dfs(int i) {
+        if(i == 4)  {
+            StringBuilder sb = new StringBuilder();
+            for (String s : temp) {
+                sb.append(s);
+            }
 
-    static class ApplierInfo implements Comparable<ApplierInfo>    {
-        String language;
-        String position;
-        String career;
-        String soulFood;
-        int score;
-
-        public ApplierInfo(String[] info) {
-            this.language = info[0];
-            this.position = info[1];
-            this.career = info[2];
-            this.soulFood = info[3];
-            this.score = Integer.parseInt(info[4]);
-        }
-
-        @Override
-        public int compareTo(ApplierInfo o) {
-            return score - o.score;
-        }
-
-        @Override
-        public String toString() {
-            return "ApplierInfo{" +
-                    "language='" + language + '\'' +
-                    ", position='" + position + '\'' +
-                    ", career='" + career + '\'' +
-                    ", soulFood='" + soulFood + '\'' +
-                    ", score=" + score +
-                    '}';
+            if(!map.containsKey(sb.toString())) {
+                map.put(sb.toString(), new ArrayList<>());
+            }
+            map.get(sb.toString()).add(score);
+        } else  {
+            temp[i] = splitInfo[i];
+            dfs(i + 1);
+            temp[i] = "-";
+            dfs(i + 1);
         }
     }
 }
