@@ -1,4 +1,4 @@
-package programmers.kakao;
+package programmers.level2;
 
 /**
  * 124나라

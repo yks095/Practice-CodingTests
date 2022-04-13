@@ -1,4 +1,4 @@
-package programmers.kakao;
+package programmers.level2;
 
 /**
  * 큰 수 만들기

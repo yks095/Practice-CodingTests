@@ -79,6 +79,12 @@ public class MenuRenewal {
                 combination(map, order, isVisited, 0, i);
             }
         }
+
+        for (Map<String, Integer> map : list) {
+            for (String s : map.keySet()) {
+                System.out.println("key : " + s + ", value : " + map.get(s));
+            }
+        }
     }
 
     private static List<Map<String, Integer>> initData() {
